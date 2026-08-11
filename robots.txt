@@ -1,0 +1,11 @@
+# robots.txt — Amar Visual Studio
+# https://amarvisuals.co.uk/
+
+User-agent: *
+Allow: /
+
+# Block /frames/ from crawling to save crawl budget (300 animation JPGs)
+Disallow: /frames/
+
+# Sitemap location
+Sitemap: https://amarvisuals.co.uk/sitemap.xml
