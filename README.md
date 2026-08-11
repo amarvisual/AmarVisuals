@@ -96,6 +96,7 @@ Open `index.html` in any modern browser (Chrome, Edge, Safari, Firefox) — no b
 - **2026-08-10**: Added Google Analytics 4 (`G-0EXSTST86E`) tracking script to all 6 pages (index, privacy-policy, 4 service pages). Script placed at top of `<head>` per Google's recommendation for most accurate data collection.
 - **2026-08-10**: Connected contact form to WhatsApp — implemented `submitToWhatsApp(event)` handler on [index.html](file:///d:/Amar%20Visual%20Studio/Antigravity%20Project/Amar%20Visuals/index.html). Form inputs (Name, Email, Phone, Service, Budget, Message) are validated, structured into a neat summary message, and automatically redirected to `https://wa.me/916372885071` with an active success confirmation banner.
 - **2026-08-10**: Target domain configured to `https://amarvisuals.co.uk/` across all canonical tags, Open Graph meta tags, Twitter card URLs, JSON-LD Schema (LocalBusiness, Services, BreadcrumbList), `sitemap.xml`, and `robots.txt`.
+- **2026-08-11**: Initialized local Git repository, linked remote to [amarvisual/AmarVisuals](https://github.com/amarvisual/AmarVisuals), and pushed all latest source code, assets, service pages, and animation frames to branch `main` for automated Vercel/CI/CD deployment. Also generated standalone [amarvisuals-deploy.zip](file:///d:/Amar%20Visual%20Studio/Antigravity%20Project/amarvisuals-deploy.zip) package.
 
 ## Automatic Updates
 An AI agent rule is configured in this workspace to automatically keep this document up to date if any structural or functional changes are made to the project.
