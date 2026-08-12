@@ -101,9 +101,11 @@ Open `index.html` in any modern browser (Chrome, Edge, Safari, Firefox) — no b
 - **2026-08-12**: Hotfix & AST Script Validation — Resolved JavaScript syntax errors on `index.html` (closed missing block bracket on custom cursor and deduplicated `mobileMenu` declarations) that were blocking script execution and preloader removal on live environments; ran automated AST validator across all HTML and JS files in the project.
 - **2026-08-12**: Mobile Layout Containment & Hero Branding Restoration — (1) Restored hero headline branding to "Hey, I'm a Web Developer" with dynamic typewriter role transitions, (2) Calibrated hero scroll fade-out (`heroFadeEnd: 260px`) to completely eliminate text collision with incoming content sections while preserving the full face background animation, (3) Enforced strict width containment across all grid systems (`pricing-grid`, `portfolio-grid`, `testimonials-grid`, `trusted-logos`, `contact-split`) eliminating all horizontal overflow triggers on small mobile screens.
 - **2026-08-12**: About Section Mobile UX Overhaul — Upgraded "About Amar Visual Studio" into a frosted glassmorphic card container (`backdrop-filter: blur(16px)`) with crisp high-contrast readability over the scroll video, structured 2x2 responsive value-prop feature chips (*Odisha Local/Global, Free Consult, Fast Turnaround, Fair Pricing*), and full-width mobile WhatsApp CTA button.
+- **2026-08-12**: Seamless Scroll Curtain Fix — Enforced solid dark studio backdrop (`#080808` with `box-shadow: 0 -30px 60px rgba(0,0,0,0.95)` and top border highlight) across `#page-content`, `.trusted-section` (`#0c0c0c`), and `.marquee-section` (`#0a0a0a`). This ensures that content sections smoothly and cleanly roll over the hero canvas without any half-face or background animation bleeding through gaps between sections on mobile.
 
 ## Automatic Updates
 An AI agent rule is configured in this workspace to automatically keep this document up to date if any structural or functional changes are made to the project.
+
 
 
 

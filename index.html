@@ -758,15 +758,16 @@
             position: relative;
             z-index: 100;
             margin-top: 0;
+            background: #080808;
+            box-shadow: 0 -30px 60px rgba(0,0,0,0.95);
         }
 
         /* ── Stats / Trusted Bar ──────────────────────────── */
         .trusted-section {
             display: flex; align-items: center; gap: 52px;
             padding: 40px 5%;
-            background: rgba(5,5,5,0.6);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(255,255,255,0.10);
+            background: #0c0c0c;
+            border-top: 1px solid rgba(255,255,255,0.12);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
         .trusted-label {
@@ -794,7 +795,7 @@
         .marquee-section {
             overflow: hidden;
             padding: 20px 0;
-            background: rgba(5,5,5,0.5);
+            background: #0a0a0a;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .marquee-track {
@@ -822,20 +823,19 @@
         /* ── About Section ───────────────────────────────────── */
         .about-section-wrapper {
             max-width: 1200px;
-            margin: 0 auto 90px auto;
+            margin: 60px auto 90px auto;
             padding: 0 5%;
             width: 100%;
             box-sizing: border-box;
         }
         .about-glass-container {
-            background: rgba(10, 10, 10, 0.52);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%), #111111;
             border: 1px solid rgba(255, 255, 255, 0.09);
             border-radius: 24px;
             padding: 48px 44px;
             width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .about-glass-container:hover {
@@ -1470,9 +1470,10 @@
             .t-logo-text strong { font-size: 12px; }
             .t-logo-text span { font-size: 10px; }
 
-            .about-section-wrapper { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
-            .about-glass-container { padding: 28px 18px; border-radius: 18px; width: 100%; box-sizing: border-box; }
-            .about-grid { grid-template-columns: 1fr; gap: 24px; width: 100%; }
+            .about-section-wrapper { padding: 0 5%; margin: 36px auto 44px auto; width: 100%; box-sizing: border-box; }
+            .about-glass-container { padding: 26px 18px; border-radius: 18px; width: 100%; box-sizing: border-box; }
+            .about-grid { grid-template-columns: 1fr; gap: 20px; width: 100%; }
+            .section-label { font-size: 10px; letter-spacing: 1.5px; margin-bottom: 14px; }
             .about-heading { font-size: clamp(24px, 7.5vw, 36px); letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 14px; }
             .about-desc { font-size: 14px; line-height: 1.6; }
             .about-features-grid { grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
@@ -1539,8 +1540,10 @@
                 width: 100%; justify-content: center; text-align: center; font-size: 13px; padding: 13px 18px; box-sizing: border-box;
             }
 
-            .about-glass-container { padding: 22px 15px; border-radius: 16px; }
-            .about-heading { font-size: clamp(22px, 8vw, 28px); }
+            .about-section-wrapper { margin: 24px auto 36px auto; }
+            .about-glass-container { padding: 20px 14px; border-radius: 16px; }
+            .section-label { font-size: 9.5px; letter-spacing: 1px; }
+            .about-heading { font-size: clamp(21px, 7.5vw, 26px); }
             .about-desc { font-size: 13px; }
             .about-features-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
             .about-feature-item { padding: 10px 8px; gap: 6px; }
