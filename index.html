@@ -476,7 +476,7 @@
         #navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
-            z-index: 300;
+            z-index: 500;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -573,42 +573,75 @@
         /* ── Hamburger Menu Button ── */
         .nav-hamburger {
             display: none;
-            flex-direction: column; gap: 5px;
-            background: none; border: none; cursor: pointer;
-            padding: 6px; z-index: 400;
+            position: relative;
+            flex-direction: column; justify-content: center; align-items: center;
+            gap: 5px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px; cursor: pointer;
+            width: 42px; height: 42px; padding: 8px; z-index: 501;
+            pointer-events: auto;
+            transition: background 0.2s, border-color 0.2s;
         }
+        .nav-hamburger:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,69,0,0.4); }
         .nav-hamburger span {
-            display: block; width: 24px; height: 2px;
-            background: #fff; border-radius: 2px;
-            transition: transform 0.3s, opacity 0.3s;
+            display: block; width: 22px; height: 2px;
+            background: #fff; border-radius: 2px; pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
         }
-        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open { background: rgba(255,69,0,0.25); border-color: #ff4500; }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: #ff4500; }
         .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #ff4500; }
 
         /* ── Mobile Nav Drawer ── */
         .mobile-menu {
             display: none;
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(5,5,5,0.97);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            z-index: 350;
-            flex-direction: column; align-items: center; justify-content: center;
-            gap: 36px;
+            position: fixed; inset: 0;
+            background: rgba(5,5,5,0.98);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            z-index: 450;
+            flex-direction: column; align-items: center; justify-content: flex-start;
+            padding: 100px 6% 40px;
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .mobile-menu.open { display: flex; }
+        .mobile-menu.open {
+            display: flex; opacity: 1; visibility: visible;
+        }
+        .mobile-menu-links {
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            width: 100%; max-width: 320px; margin-bottom: 24px;
+        }
         .mobile-menu a {
-            color: rgba(255,255,255,0.85); text-decoration: none;
-            font-family: 'Outfit', sans-serif; font-size: 28px;
+            color: rgba(255,255,255,0.9); text-decoration: none;
+            font-family: 'Outfit', sans-serif; font-size: 24px;
             font-weight: 700; letter-spacing: -0.5px;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.2s;
+            padding: 6px 12px;
         }
-        .mobile-menu a:hover { color: #ff4500; }
+        .mobile-menu a:hover, .mobile-menu a:active { color: #ff4500; transform: translateY(-1px); }
+        .mobile-services-divider {
+            width: 100%; max-width: 280px; height: 1px;
+            background: rgba(255,255,255,0.08); margin: 6px 0 16px;
+        }
+        .mobile-services-title {
+            font-size: 10px; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: #ff4500; margin-bottom: 12px;
+        }
+        .mobile-service-link {
+            font-family: 'Inter', sans-serif !important; font-size: 14px !important;
+            font-weight: 500 !important; color: rgba(255,255,255,0.6) !important;
+            padding: 6px 0 !important;
+        }
+        .mobile-service-link:hover { color: #fff !important; }
         .mobile-menu .mobile-cta {
-            margin-top: 10px;
+            margin-top: 14px; width: 100%; max-width: 280px;
+            text-align: center; justify-content: center;
             background: #ff4500; color: #fff !important;
-            padding: 14px 36px; border-radius: 100px;
-            font-size: 16px;
+            padding: 14px 24px; border-radius: 100px;
+            font-size: 15px; font-weight: 700;
+            box-shadow: 0 0 20px rgba(255,69,0,0.4);
         }
 
         /* ──────────────────────────────────────────────────────
@@ -1332,28 +1365,34 @@
             .nav-hamburger { display: flex; }
             .nav-cta { display: none; }
             .nav-available { display: none; }
-            #navbar { padding: 18px 5%; }
+            #navbar { padding: 16px 5%; }
 
-            .hero-title { font-size: clamp(42px, 11vw, 72px); letter-spacing: -1.5px; }
-            .hero-eyebrow { font-size: 11px; }
-            #hero-overlay { padding: 0 5% 100px; }
+            .hero-title { font-size: clamp(40px, 11vw, 68px); letter-spacing: -1.5px; line-height: 1.05; }
+            .hero-eyebrow { font-size: 11px; gap: 8px; }
+            .hero-eyebrow-line { width: 20px; }
+            #hero-overlay { padding: 0 5% 90px; }
             .hero-tagline { display: none; }
-            .hero-ctas { margin-top: 24px; }
-            .hero-btn-primary, .hero-btn-ghost { font-size: 13px; padding: 12px 20px; }
+            .hero-ctas { margin-top: 24px; gap: 12px; width: 100%; }
+            .hero-btn-primary, .hero-btn-ghost { font-size: 14px; padding: 13px 22px; min-height: 46px; }
             .hero-scroll-indicator { display: none; }
 
-            .trusted-section { flex-direction: column; align-items: flex-start; gap: 20px; padding: 28px 5%; }
-            .trusted-logos { gap: 24px; flex-wrap: wrap; }
-            .t-logo-num { font-size: 26px; }
+            .trusted-section { flex-direction: column; align-items: flex-start; gap: 20px; padding: 32px 5%; }
+            .trusted-label { font-size: 11px; min-width: unset; }
+            .trusted-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; width: 100%; }
+            .t-logo { gap: 10px; }
+            .t-logo-num { font-size: 28px; }
+            .t-logo-text strong { font-size: 12px; }
+            .t-logo-text span { font-size: 10px; }
 
-            .about-section { grid-template-columns: 1fr; gap: 24px; padding: 60px 5% 50px; }
+            .about-section { grid-template-columns: 1fr; gap: 28px; padding: 60px 5% 50px; }
             .about-heading { font-size: clamp(28px, 8vw, 42px); }
             .about-desc { font-size: 15px; }
 
             .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
             .pricing-grid .price-card:last-child { grid-column: span 1; max-width: 100%; margin: 0; }
             .pricing-section { padding: 0 5%; margin-bottom: 60px; }
-            .pricing-title { font-size: clamp(30px, 8vw, 48px); }
+            .pricing-title { font-size: clamp(30px, 8vw, 46px); }
+            .pricing-notice { border-radius: 14px; padding: 14px 18px; font-size: 12px; line-height: 1.6; text-align: left; }
             .price-amount { font-size: 44px; }
 
             .portfolio-grid { grid-template-columns: 1fr; }
@@ -1363,46 +1402,54 @@
             .testimonials-section { padding: 0 5%; margin-bottom: 60px; }
 
             .faq-section { padding: 0 5%; margin-bottom: 60px; }
-            .faq-summary { font-size: 15px; padding: 18px; }
+            .faq-summary { font-size: 15px; padding: 18px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
             .faq-content { font-size: 13px; padding: 0 18px 18px; }
 
             .contact-section { padding: 60px 5% 80px; }
             .contact-title { font-size: clamp(28px, 8vw, 42px); }
             .contact-sub { font-size: 13px; }
             .contact-split { grid-template-columns: 1fr; gap: 30px; max-width: 100%; }
-            .contact-header { margin-bottom: 40px; }
-            .contact-glass-box { padding: 24px 20px; }
+            .contact-header { margin-bottom: 36px; }
+            .contact-glass-box { padding: 24px 18px; }
             .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-control, .float-input, select.form-control, textarea.form-control {
+                font-size: 16px !important; /* Prevents iOS auto-zoom on focus */
+                min-height: 48px;
+            }
             .info-title { font-size: 26px; }
 
             .footer-content { flex-direction: column; align-items: flex-start; gap: 24px; }
-            .footer-right { flex-wrap: wrap; gap: 16px; }
+            .footer-right { flex-wrap: wrap; gap: 14px 20px; }
+            .footer-link { font-size: 13px; padding: 4px 0; }
 
             .whatsapp-fab { bottom: 20px; right: 20px; }
-            .whatsapp-fab-btn { width: 52px; height: 52px; }
+            .whatsapp-fab-btn { width: 54px; height: 54px; }
         }
 
         /* ── Responsive — 480px ── */
         @media (max-width: 480px) {
-            #navbar { padding: 16px 5%; }
+            #navbar { padding: 14px 5%; }
             .nav-brand-name { font-size: 16px; }
-            .nav-logo { width: 38px; height: 38px; }
+            .nav-logo { width: 36px; height: 36px; }
 
-            .hero-title { font-size: clamp(36px, 12vw, 56px); letter-spacing: -1px; }
-            #hero-overlay { padding: 0 5% 90px; }
-            .hero-ctas { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .hero-btn-primary, .hero-btn-ghost { font-size: 13px; padding: 12px 20px; }
+            .hero-title { font-size: clamp(34px, 11vw, 48px); letter-spacing: -1px; }
+            #hero-overlay { padding: 0 5% 80px; }
+            .hero-ctas { flex-direction: column; align-items: stretch; gap: 10px; }
+            .hero-btn-primary, .hero-btn-ghost {
+                width: 100%; justify-content: center; text-align: center; font-size: 14px; padding: 14px 20px;
+            }
 
             .about-heading { font-size: clamp(26px, 9vw, 36px); }
-            .pricing-title { font-size: clamp(26px, 9vw, 40px); }
+            .pricing-title { font-size: clamp(26px, 9vw, 38px); }
             .contact-title { font-size: clamp(24px, 9vw, 36px); }
-            .price-card { padding: 24px 20px 20px; }
+            .price-card { padding: 24px 18px 20px; }
             .price-amount { font-size: 38px; }
-            .testimonial-card { padding: 24px; }
+            .testimonial-card { padding: 22px 18px; }
             .quote { font-size: 14px; }
             .faq-summary { font-size: 14px; padding: 16px; }
-            .info-card { padding: 14px 16px; }
+            .info-card { padding: 14px; }
             .info-value { font-size: 13px; }
+            .submit-btn { min-height: 50px; font-size: 13px; }
         }
 
     </style>
@@ -1457,11 +1504,22 @@
 
     <!-- ── Mobile Drawer Menu ── -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#" onclick="closeMobileMenu()">Home</a>
-        <a href="#about" onclick="closeMobileMenu()">About</a>
-        <a href="#work" onclick="closeMobileMenu()">Pricing</a>
-        <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-        <a href="https://wa.me/916372885071" target="_blank" class="mobile-cta" onclick="closeMobileMenu()">WhatsApp Us ↗</a>
+        <div class="mobile-menu-links">
+            <a href="#" onclick="closeMobileMenu()">Home</a>
+            <a href="#about" onclick="closeMobileMenu()">About</a>
+            <a href="#portfolio" onclick="closeMobileMenu()">Portfolio</a>
+            <a href="#work" onclick="closeMobileMenu()">Pricing</a>
+            <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+        </div>
+        <div class="mobile-services-divider"></div>
+        <div class="mobile-services-title">Services</div>
+        <div class="mobile-menu-links" style="gap: 8px; margin-bottom: 16px;">
+            <a href="services/web-design-bhubaneswar.html" class="mobile-service-link">Web Design Bhubaneswar</a>
+            <a href="services/web-design-odisha.html" class="mobile-service-link">Web Design Odisha</a>
+            <a href="services/landing-page-design.html" class="mobile-service-link">Landing Pages</a>
+            <a href="services/business-website-design.html" class="mobile-service-link">Business Websites</a>
+        </div>
+        <a href="https://wa.me/916372885071?text=Hi%20Amar%20Visual%20Studio%2C%20I%20need%20a%20website" target="_blank" class="mobile-cta" onclick="closeMobileMenu()">💬 WhatsApp Us Now</a>
     </div>
 
     <!-- ── Spotlight cursor glow ── -->
@@ -2364,7 +2422,39 @@
             attachCursorEvents();
             const mutObserver = new MutationObserver(attachCursorEvents);
             mutObserver.observe(document.body, { childList: true, subtree: true });
+        /* ── Mobile Hamburger Drawer Menu ── */
+        const hamburgerBtn = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMobileMenu() {
+            if (!mobileMenu || !hamburgerBtn) return;
+            const isOpen = mobileMenu.classList.toggle('open');
+            hamburgerBtn.classList.toggle('open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+            hamburgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         }
+
+        function closeMobileMenu() {
+            if (!mobileMenu || !hamburgerBtn) return;
+            mobileMenu.classList.remove('open');
+            hamburgerBtn.classList.remove('open');
+            document.body.style.overflow = '';
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('open')) {
+                closeMobileMenu();
+            }
+        });
     </script>
 </body>
 </html>
