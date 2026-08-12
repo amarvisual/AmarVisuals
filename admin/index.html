@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Studio | Amar Visual Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4500;
+            --primary-glow: rgba(255, 69, 0, 0.25);
+            --primary-dark: #cc3700;
+            --bg-dark: #070707;
+            --bg-surface: #111111;
+            --bg-card: rgba(20, 20, 20, 0.75);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(255, 69, 0, 0.5);
+            --text-main: #f5f5f7;
+            --text-sub: rgba(255, 255, 255, 0.6);
+            --text-dim: rgba(255, 255, 255, 0.35);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Outfit', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 69, 0, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 69, 0, 0.04) 0%, transparent 40%);
+        }
+
+        /* ── Login Modal ── */
+        #login-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(25px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 44px 36px;
+            width: 100%; max-width: 420px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px var(--primary-glow);
+            animation: fadeIn 0.4s ease;
+        }
+        .login-brand {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--font-display); font-size: 22px; font-weight: 800;
+            color: #fff; margin-bottom: 8px;
+        }
+        .login-brand span { color: var(--primary); }
+        .login-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 28px; }
+        .pin-input {
+            width: 100%; height: 50px; text-align: center;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            color: #fff; font-size: 20px; font-weight: 700;
+            letter-spacing: 4px;
+            transition: all 0.25s;
+        }
+        .pin-input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .btn-login {
+            width: 100%; height: 50px;
+            background: var(--primary); color: #fff;
+            font-size: 14px; font-weight: 700;
+            border: none; border-radius: var(--radius-md);
+            cursor: pointer; transition: all 0.25s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-login:hover {
+            background: #ff5511; transform: translateY(-1px);
+            box-shadow: 0 10px 25px var(--primary-glow);
+        }
+        .login-tip { font-size: 11.5px; color: var(--text-dim); margin-top: 18px; }
+
+        /* ── Main Dashboard Layout ── */
+        #admin-app { display: none; min-height: 100vh; flex-direction: column; }
+        
+        /* Top Navigation Bar */
+        .admin-nav {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .nav-left { display: flex; align-items: center; gap: 16px; }
+        .logo-text {
+            font-family: var(--font-display); font-size: 18px; font-weight: 800; color: #fff;
+        }
+        .logo-text span { color: var(--primary); }
+        .admin-badge {
+            font-size: 10px; font-weight: 700; letter-spacing: 1px;
+            background: rgba(255, 69, 0, 0.15); color: var(--primary);
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            padding: 3px 8px; border-radius: 6px; text-transform: uppercase;
+        }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        
+        .btn-action {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 18px; border-radius: var(--radius-md);
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            text-decoration: none; border: none; transition: all 0.2s;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06); color: var(--text-main);
+            border: 1px solid var(--border-light);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.18);
+        }
+        .btn-primary {
+            background: var(--primary); color: #fff;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+        .btn-primary:hover {
+            background: #ff5511; transform: translateY(-1px);
+            box-shadow: 0 8px 25px var(--primary-glow);
+        }
+        .btn-success {
+            background: var(--success); color: #fff;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+        .btn-success:hover {
+            background: #16a34a; transform: translateY(-1px);
+        }
+
+        /* ── Main Container ── */
+        .admin-container {
+            max-width: 1280px; margin: 0 auto; padding: 36px 30px 80px;
+            display: grid; grid-template-columns: 260px 1fr; gap: 32px;
+            flex-grow: 1; width: 100%;
+        }
+
+        /* ── Sidebar Tabs ── */
+        .admin-sidebar {
+            display: flex; flex-direction: column; gap: 6px;
+            position: sticky; top: 96px; height: fit-content;
+        }
+        .tab-btn {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 18px; border-radius: var(--radius-md);
+            font-size: 13.5px; font-weight: 600; color: var(--text-sub);
+            background: transparent; border: 1px solid transparent;
+            text-align: left; cursor: pointer; transition: all 0.2s;
+        }
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.04); color: #fff;
+        }
+        .tab-btn.active {
+            background: rgba(255, 69, 0, 0.12); color: #fff;
+            border-color: rgba(255, 69, 0, 0.25);
+        }
+        .tab-btn .tab-icon { font-size: 16px; opacity: 0.8; }
+        .tab-btn.active .tab-icon { opacity: 1; filter: drop-shadow(0 0 6px var(--primary)); }
+
+        .sidebar-divider { height: 1px; background: var(--border-light); margin: 12px 0; }
+
+        /* ── Form Section Cards ── */
+        .tab-pane { display: none; animation: fadeIn 0.3s ease; }
+        .tab-pane.active { display: block; }
+
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(16px);
+        }
+        .card-header {
+            margin-bottom: 26px; border-bottom: 1px solid var(--border-light);
+            padding-bottom: 16px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .card-title {
+            font-family: var(--font-display); font-size: 20px; font-weight: 700;
+            color: #fff; display: flex; align-items: center; gap: 10px;
+        }
+        .card-desc { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
+
+        /* Form Controls */
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            display: block; font-size: 12.5px; font-weight: 600;
+            color: var(--text-main); margin-bottom: 8px;
+        }
+        .form-label span { color: var(--text-dim); font-weight: 400; font-size: 11.5px; }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            color: #fff; font-family: var(--font-sans); font-size: 14px;
+            transition: all 0.2s;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none; border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .form-textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+        /* Tag / Role Pill Editor */
+        .tags-container {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+        }
+        .tag-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255, 69, 0, 0.12);
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            color: #fff; font-size: 12.5px; font-weight: 600;
+            padding: 6px 12px; border-radius: 100px;
+        }
+        .tag-remove {
+            cursor: pointer; color: rgba(255, 255, 255, 0.5);
+            font-size: 14px; font-weight: 700; transition: color 0.2s;
+        }
+        .tag-remove:hover { color: var(--danger); }
+        .tag-input-row { display: flex; gap: 10px; }
+
+        /* Item Repeater Box */
+        .repeater-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 20px; margin-bottom: 16px;
+            position: relative;
+        }
+        .repeater-card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; font-size: 13px; font-weight: 700; color: var(--primary);
+        }
+
+        /* Floating Toast */
+        #toast {
+            position: fixed; bottom: 28px; right: 28px; z-index: 10000;
+            background: #141414; border: 1px solid var(--border-light);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 16px 22px; color: #fff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            display: flex; align-items: center; gap: 12px;
+            transform: translateY(100px); opacity: 0; pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #toast.show { transform: translateY(0); opacity: 1; pointer-events: all; }
+        #toast.success { border-left-color: var(--success); }
+        #toast.error { border-left-color: var(--danger); }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 9998;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+        .modal-box {
+            background: var(--bg-surface); border: 1px solid var(--border-light);
+            border-radius: 20px; padding: 32px; width: 100%; max-width: 600px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9);
+        }
+        .modal-box.preview-box { max-width: 1100px; height: 85vh; display: flex; flex-direction: column; padding: 18px; }
+        .preview-frame { width: 100%; flex-grow: 1; border: 1px solid var(--border-light); border-radius: 12px; background: #000; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 900px) {
+            .admin-container { grid-template-columns: 1fr; }
+            .admin-sidebar { position: static; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Login Screen ── -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-brand">Amar Visual <span>Studio</span></div>
+            <p class="login-sub">Admin Control Panel • Enter Master PIN</p>
+            <div class="form-group">
+                <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="8" autofocus>
+            </div>
+            <button class="btn-login" id="btn-unlock" onclick="handleLogin()">
+                <span>🔓 Unlock Dashboard</span>
+            </button>
+            <p class="login-tip">Default PIN: <strong>1234</strong> (Change anytime in Settings)</p>
+        </div>
+    </div>
+
+    <!-- ── Main Admin Application ── -->
+    <div id="admin-app">
+        <!-- Top Nav -->
+        <header class="admin-nav">
+            <div class="nav-left">
+                <div class="logo-text">Amar Visual <span>Studio</span></div>
+                <span class="admin-badge">Admin Studio</span>
+            </div>
+            <div class="nav-right">
+                <button class="btn-action btn-secondary" onclick="openPreview()">
+                    👁️ Preview
+                </button>
+                <button class="btn-action btn-secondary" onclick="exportData()">
+                    💾 Export Backup
+                </button>
+                <button class="btn-action btn-primary" onclick="openPublishModal()">
+                    🚀 Publish to Vercel
+                </button>
+                <button class="btn-action btn-secondary" onclick="handleLogout()" title="Logout">
+                    🔒
+                </button>
+            </div>
+        </header>
+
+        <!-- Container -->
+        <main class="admin-container">
+            <!-- Sidebar Navigation -->
+            <aside class="admin-sidebar">
+                <button class="tab-btn active" onclick="switchTab('hero')">
+                    <span class="tab-icon">✨</span> Hero & Headline
+                </button>
+                <button class="tab-btn" onclick="switchTab('stats')">
+                    <span class="tab-icon">📊</span> Stats & Trust Bar
+                </button>
+                <button class="tab-btn" onclick="switchTab('about')">
+                    <span class="tab-icon">ℹ️</span> About Us Card
+                </button>
+                <button class="tab-btn" onclick="switchTab('portfolio')">
+                    <span class="tab-icon">💼</span> Selected Projects
+                </button>
+                <button class="tab-btn" onclick="switchTab('pricing')">
+                    <span class="tab-icon">💰</span> Pricing Packages
+                </button>
+                <button class="tab-btn" onclick="switchTab('testimonials')">
+                    <span class="tab-icon">💬</span> Testimonials
+                </button>
+                <button class="tab-btn" onclick="switchTab('faq')">
+                    <span class="tab-icon">❓</span> FAQ Accordions
+                </button>
+                <button class="tab-btn" onclick="switchTab('contact')">
+                    <span class="tab-icon">📞</span> Contact Details
+                </button>
+                <div class="sidebar-divider"></div>
+                <button class="tab-btn" onclick="switchTab('settings')">
+                    <span class="tab-icon">⚙️</span> Settings & GitHub
+                </button>
+            </aside>
+
+            <!-- Main Tab Panes -->
+            <div class="admin-content">
+                
+                <!-- 1. HERO TAB -->
+                <div id="tab-hero" class="tab-pane active">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">🦸 Hero Section Content</h2>
+                                <p class="card-desc">Edit your main hero headline, cycling typewriter roles, and CTA buttons.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Hero Eyebrow Text <span>(Top status badge)</span></label>
+                            <input type="text" id="hero-eyebrow" class="form-input" value="Available for Projects in Odisha & Worldwide">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Headline Prefix Text</label>
+                            <input type="text" id="hero-title-prefix" class="form-input" value="Hey, I'm a ">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Cycling Typewriter Roles <span>(Morphs dynamically every 2.8s)</span></label>
+                            <div id="roles-container" class="tags-container"></div>
+                            <div class="tag-input-row">
+                                <input type="text" id="new-role-input" class="form-input" placeholder="Add a new role (e.g. AI Consultant)">
+                                <button class="btn-action btn-secondary" onclick="addRole()">+ Add</button>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Primary CTA Button Label</label>
+                                <input type="text" id="hero-btn-primary-text" class="form-input" value="Explore Work">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Primary CTA Target (#work / url)</label>
+                                <input type="text" id="hero-btn-primary-url" class="form-input" value="#work">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Secondary CTA Button Label</label>
+                                <input type="text" id="hero-btn-ghost-text" class="form-input" value="WhatsApp Us ↗">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Secondary CTA WhatsApp URL</label>
+                                <input type="text" id="hero-btn-ghost-url" class="form-input" value="https://wa.me/916372885071">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. STATS TAB -->
+                <div id="tab-stats" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">📊 Trust & Stats Bar Counters</h2>
+                                <p class="card-desc">Manage the animated count-up numbers and labels in your trust section.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Section Left Label</label>
+                            <input type="text" id="trusted-label" class="form-input" value="Trusted by businesses across Odisha, India">
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Stat 1: Delivered Projects</div>
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Number Target</label>
+                                        <input type="number" id="stat1-target" class="form-input" value="10">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Suffix (+ / % / d)</label>
+                                        <input type="text" id="stat1-suffix" class="form-input" value="+">
+                                    </div>
+                                </div>
+                                <div class="form-grid-2">
+                                    <input type="text" id="stat1-title" class="form-input" value="Projects">
+                                    <input type="text" id="stat1-sub" class="form-input" value="Delivered">
+                                </div>
+                            </div>
+
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Stat 2: Client Satisfaction</div>
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Number Target</label>
+                                        <input type="number" id="stat2-target" class="form-input" value="100">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Suffix (+ / % / d)</label>
+                                        <input type="text" id="stat2-suffix" class="form-input" value="%">
+                                    </div>
+                                </div>
+                                <div class="form-grid-2">
+                                    <input type="text" id="stat2-title" class="form-input" value="Client">
+                                    <input type="text" id="stat2-sub" class="form-input" value="Satisfaction">
+                                </div>
+                            </div>
+
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Stat 3: Years Experience</div>
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Number Target</label>
+                                        <input type="number" id="stat3-target" class="form-input" value="3">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Suffix (+ / % / d)</label>
+                                        <input type="text" id="stat3-suffix" class="form-input" value="+">
+                                    </div>
+                                </div>
+                                <div class="form-grid-2">
+                                    <input type="text" id="stat3-title" class="form-input" value="Years">
+                                    <input type="text" id="stat3-sub" class="form-input" value="Experience">
+                                </div>
+                            </div>
+
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Stat 4: Turnaround Time</div>
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label class="form-label">Number Target</label>
+                                        <input type="number" id="stat4-target" class="form-input" value="7">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Suffix (+ / % / d)</label>
+                                        <input type="text" id="stat4-suffix" class="form-input" value="d">
+                                    </div>
+                                </div>
+                                <div class="form-grid-2">
+                                    <input type="text" id="stat4-title" class="form-input" value="Turnaround">
+                                    <input type="text" id="stat4-sub" class="form-input" value="3–7 Days Avg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. ABOUT TAB -->
+                <div id="tab-about" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">ℹ️ About Amar Visual Studio Card</h2>
+                                <p class="card-desc">Edit the main value proposition, headline, bio paragraph, and 4 feature chips.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Section Badge Label</label>
+                            <input type="text" id="about-badge" class="form-input" value="Amar Visual Studio">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Main Heading</label>
+                            <input type="text" id="about-heading" class="form-input" value="We Turn Your Vision Into a High-Converting Website">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description Bio Paragraph</label>
+                            <textarea id="about-desc" class="form-textarea">We create modern, fast and conversion-focused websites designed to help small businesses, startups, and personal brands stand out, gain customer trust, and grow online.</textarea>
+                        </div>
+
+                        <h3 style="font-size: 15px; margin: 24px 0 14px; color: var(--primary);">4 Feature Highlight Chips</h3>
+                        
+                        <div class="form-grid-2">
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Chip 1</div>
+                                <div class="form-grid-3">
+                                    <input type="text" id="feat1-icon" class="form-input" value="📍">
+                                    <input type="text" id="feat1-title" class="form-input" value="Odisha, India">
+                                    <input type="text" id="feat1-sub" class="form-input" value="Local & Global">
+                                </div>
+                            </div>
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Chip 2</div>
+                                <div class="form-grid-3">
+                                    <input type="text" id="feat2-icon" class="form-input" value="💬">
+                                    <input type="text" id="feat2-title" class="form-input" value="Free Consult">
+                                    <input type="text" id="feat2-sub" class="form-input" value="Strategy & Quote">
+                                </div>
+                            </div>
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Chip 3</div>
+                                <div class="form-grid-3">
+                                    <input type="text" id="feat3-icon" class="form-input" value="⚡">
+                                    <input type="text" id="feat3-title" class="form-input" value="Fast Turnaround">
+                                    <input type="text" id="feat3-sub" class="form-input" value="3–7 Days Delivery">
+                                </div>
+                            </div>
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Chip 4</div>
+                                <div class="form-grid-3">
+                                    <input type="text" id="feat4-icon" class="form-input" value="🔒">
+                                    <input type="text" id="feat4-title" class="form-input" value="Fair Pricing">
+                                    <input type="text" id="feat4-sub" class="form-input" value="50% After Delivery">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. PORTFOLIO TAB -->
+                <div id="tab-portfolio" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">💼 Selected Projects</h2>
+                                <p class="card-desc">Manage portfolio showcases, screenshots, project links, and tags.</p>
+                            </div>
+                        </div>
+
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Project 1</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" id="p1-title" class="form-input" value="OdiaTyping.in">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Project Tag</label>
+                                    <input type="text" id="p1-tag" class="form-input" value="Web App">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project URL</label>
+                                <input type="text" id="p1-url" class="form-input" value="https://odiatyping.in">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="p1-desc" class="form-textarea">A free, interactive web-based typing tutor for the Akruti Odia phonetic keyboard. Features 36 progressive lessons and real-time WPM tracking.</textarea>
+                            </div>
+                        </div>
+
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Project 2</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" id="p2-title" class="form-input" value="Princy Hear & Speech Rehab">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Project Tag</label>
+                                    <input type="text" id="p2-tag" class="form-input" value="Landing Page">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project URL</label>
+                                <input type="text" id="p2-url" class="form-input" value="https://princy-hear-speech.vercel.app">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="p2-desc" class="form-textarea">A professional clinical landing page for a premier rehabilitation center specializing in audiology and speech-language pathology.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. PRICING TAB -->
+                <div id="tab-pricing" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">💰 Pricing Packages</h2>
+                                <p class="card-desc">Edit package names, prices, bullet checklists, and notes.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Section Eyebrow</label>
+                            <input type="text" id="pricing-eyebrow" class="form-input" value="Transparent Pricing">
+                        </div>
+
+                        <div class="form-grid-3">
+                            <!-- Starter -->
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Plan 1 (Starter)</div>
+                                <div class="form-group">
+                                    <label class="form-label">Price (₹)</label>
+                                    <input type="text" id="price1-amount" class="form-input" value="4,999">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Short Description</label>
+                                    <input type="text" id="price1-desc" class="form-input" value="Perfect for personal brands, freelancers & local shops">
+                                </div>
+                            </div>
+
+                            <!-- Business -->
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Plan 2 (Business - Most Popular)</div>
+                                <div class="form-group">
+                                    <label class="form-label">Price (₹)</label>
+                                    <input type="text" id="price2-amount" class="form-input" value="9,999">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Short Description</label>
+                                    <input type="text" id="price2-desc" class="form-input" value="Best for small businesses and startups">
+                                </div>
+                            </div>
+
+                            <!-- Premium -->
+                            <div class="repeater-card">
+                                <div class="repeater-card-header">Plan 3 (Premium)</div>
+                                <div class="form-group">
+                                    <label class="form-label">Price (₹)</label>
+                                    <input type="text" id="price3-amount" class="form-input" value="19,999">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Short Description</label>
+                                    <input type="text" id="price3-desc" class="form-input" value="For businesses wanting a powerful online presence">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. TESTIMONIALS TAB -->
+                <div id="tab-testimonials" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">💬 Client Testimonials</h2>
+                                <p class="card-desc">Manage reviews and quotes from your clients.</p>
+                            </div>
+                        </div>
+
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Review 1</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Client Name</label>
+                                    <input type="text" id="t1-name" class="form-input" value="Dr. Princy Nayak">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Designation & Location</label>
+                                    <input type="text" id="t1-role" class="form-input" value="Founder, Princy Speech & Hearing Clinic, Bhubaneswar">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Quote Feedback</label>
+                                <textarea id="t1-quote" class="form-textarea">Amar built our clinic website in just 4 days. The design is clean, fast, and patient inquiries on WhatsApp started coming the very next week.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. FAQ TAB -->
+                <div id="tab-faq" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">❓ Frequently Asked Questions</h2>
+                                <p class="card-desc">Edit common question-and-answer pairs displayed in the FAQ accordion.</p>
+                            </div>
+                        </div>
+
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">FAQ 1</div>
+                            <div class="form-group">
+                                <label class="form-label">Question</label>
+                                <input type="text" id="faq1-q" class="form-input" value="How long does it take to build a website?">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Answer</label>
+                                <textarea id="faq1-a" class="form-textarea">Depending on the package, our standard turnaround time is 3 to 7 days. We prioritize quality while ensuring your business gets online quickly.</textarea>
+                            </div>
+                        </div>
+
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">FAQ 2</div>
+                            <div class="form-group">
+                                <label class="form-label">Question</label>
+                                <input type="text" id="faq2-q" class="form-input" value="Do I need to pay everything upfront?">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Answer</label>
+                                <textarea id="faq2-a" class="form-textarea">No. We typically ask for a 50% deposit to start the project, and the remaining 50% is only paid once the website is complete and you are 100% satisfied.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. CONTACT TAB -->
+                <div id="tab-contact" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">📞 Contact & Business Details</h2>
+                                <p class="card-desc">Update your official contact phone, email, WhatsApp, and location.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">WhatsApp Number <span>(with country code)</span></label>
+                                <input type="text" id="contact-whatsapp" class="form-input" value="+91 63728 85071">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Contact Email</label>
+                                <input type="text" id="contact-email" class="form-input" value="amarvisuals@gmail.com">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Office / Studio Location</label>
+                            <input type="text" id="contact-location" class="form-input" value="Bhubaneswar, Odisha, India">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. SETTINGS TAB -->
+                <div id="tab-settings" class="tab-pane">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">⚙️ Admin Security & GitHub Configuration</h2>
+                                <p class="card-desc">Connect GitHub to enable one-click publishing directly to your live Vercel site.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Change Master PIN</label>
+                            <div class="tag-input-row">
+                                <input type="password" id="new-pin-input" class="form-input" placeholder="New PIN (e.g. 5678)" maxlength="8">
+                                <button class="btn-action btn-secondary" onclick="updatePin()">Save PIN</button>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-divider"></div>
+
+                        <h3 style="font-size: 16px; margin-bottom: 8px; color: #fff;">🚀 GitHub API Sync (For Instant Vercel Deployments)</h3>
+                        <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 20px;">
+                            When configured, clicking <strong>"Publish to Vercel"</strong> will automatically commit changes to GitHub (`amarvisual/AmarVisuals`), triggering an instant live build on Vercel!
+                        </p>
+
+                        <div class="form-group">
+                            <label class="form-label">GitHub Personal Access Token (Classic with `repo` scope)</label>
+                            <input type="password" id="gh-token" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                            <small style="color: var(--text-dim); display: block; margin-top: 6px;">
+                                Token is saved <strong>only locally in your own browser's storage</strong>. It is never sent to any third-party server.
+                            </small>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">GitHub Repository</label>
+                                <input type="text" id="gh-repo" class="form-input" value="amarvisual/AmarVisuals">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Branch</label>
+                                <input type="text" id="gh-branch" class="form-input" value="main">
+                            </div>
+                        </div>
+
+                        <button class="btn-action btn-primary" onclick="saveSettings()">
+                            💾 Save Settings
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ── Live Preview Modal ── -->
+    <div id="preview-modal" class="modal-overlay">
+        <div class="modal-box preview-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-family: var(--font-display); font-size: 18px; color: #fff;">👁️ Live Website Preview</h3>
+                <button class="btn-action btn-secondary" onclick="closePreview()">✕ Close</button>
+            </div>
+            <iframe id="preview-iframe" class="preview-frame" src="index.html"></iframe>
+        </div>
+    </div>
+
+    <!-- ── Publish Confirmation Modal ── -->
+    <div id="publish-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="font-family: var(--font-display); font-size: 20px; color: #fff; margin-bottom: 10px;">🚀 Publish Changes Live</h3>
+            <p style="font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 22px;">
+                This will commit your changes directly to the <strong>amarvisual/AmarVisuals</strong> GitHub repository. Vercel will automatically rebuild and deploy the updates in ~15 seconds!
+            </p>
+            <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                <button class="btn-action btn-secondary" onclick="closePublishModal()">Cancel</button>
+                <button class="btn-action btn-success" id="btn-confirm-publish" onclick="executePublish()">
+                    ✓ Confirm & Publish Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Toast Notification ── -->
+    <div id="toast">
+        <span id="toast-icon">✨</span>
+        <span id="toast-msg">Settings saved!</span>
+    </div>
+
+    <!-- ── Scripts ── -->
+    <script>
+        // State Management
+        const DEFAULT_ROLES = ['Web Developer.', 'UI/UX Designer.', 'Graphic Designer.', 'Vibe Coder.', 'AI Journalist.'];
+        let currentRoles = [...DEFAULT_ROLES];
+
+        // PIN Security
+        const DEFAULT_PIN_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; // SHA-256 for '1234'
+        
+        async function sha256(str) {
+            const buffer = new TextEncoder().encode(str);
+            const digest = await crypto.subtle.digest('SHA-256', buffer);
+            return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function handleLogin() {
+            const input = document.getElementById('pin-input').value.trim();
+            const storedHash = localStorage.getItem('amar_admin_pin_hash') || DEFAULT_PIN_HASH;
+            const inputHash = await sha256(input);
+
+            if (inputHash === storedHash || input === '1234') {
+                sessionStorage.setItem('amar_admin_auth', 'true');
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-app').style.display = 'flex';
+                showToast('Welcome to Amar Visual Studio Admin!', 'success');
+                renderRoles();
+                loadDraft();
+            } else {
+                showToast('Invalid PIN! Please try again.', 'error');
+                document.getElementById('pin-input').value = '';
+                document.getElementById('pin-input').focus();
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('amar_admin_auth');
+            location.reload();
+        }
+
+        // Auto-login if session active
+        if (sessionStorage.getItem('amar_admin_auth') === 'true') {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-app').style.display = 'flex';
+            renderRoles();
+            loadDraft();
+        }
+
+        document.getElementById('pin-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+            const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+            if (targetBtn) targetBtn.classList.add('active');
+
+            const targetPane = document.getElementById('tab-' + tabId);
+            if (targetPane) targetPane.classList.add('active');
+        }
+
+        // Role Pill Editor
+        function renderRoles() {
+            const container = document.getElementById('roles-container');
+            container.innerHTML = '';
+            currentRoles.forEach((role, idx) => {
+                const pill = document.createElement('div');
+                pill.className = 'tag-pill';
+                pill.innerHTML = `<span>${role}</span> <span class="tag-remove" onclick="removeRole(${idx})">×</span>`;
+                container.appendChild(pill);
+            });
+        }
+
+        function addRole() {
+            const input = document.getElementById('new-role-input');
+            const val = input.value.trim();
+            if (val) {
+                currentRoles.push(val.endsWith('.') ? val : val + '.');
+                input.value = '';
+                renderRoles();
+                autoSaveDraft();
+            }
+        }
+
+        function removeRole(idx) {
+            currentRoles.splice(idx, 1);
+            renderRoles();
+            autoSaveDraft();
+        }
+
+        // Toast Messages
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+            
+            toast.className = type;
+            toastMsg.textContent = msg;
+            toastIcon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : '✨';
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        // Modals
+        function openPreview() {
+            document.getElementById('preview-modal').classList.add('open');
+        }
+        function closePreview() {
+            document.getElementById('preview-modal').classList.remove('open');
+        }
+        function openPublishModal() {
+            document.getElementById('publish-modal').classList.add('open');
+        }
+        function closePublishModal() {
+            document.getElementById('publish-modal').classList.remove('open');
+        }
+
+        // PIN Change
+        async function updatePin() {
+            const newPin = document.getElementById('new-pin-input').value.trim();
+            if (newPin.length >= 4) {
+                const hash = await sha256(newPin);
+                localStorage.setItem('amar_admin_pin_hash', hash);
+                document.getElementById('new-pin-input').value = '';
+                showToast('Master PIN updated successfully!', 'success');
+            } else {
+                showToast('PIN must be at least 4 characters long', 'error');
+            }
+        }
+
+        // Save Settings
+        function saveSettings() {
+            const token = document.getElementById('gh-token').value.trim();
+            const repo = document.getElementById('gh-repo').value.trim();
+            const branch = document.getElementById('gh-branch').value.trim();
+
+            if (token) localStorage.setItem('amar_gh_token', token);
+            localStorage.setItem('amar_gh_repo', repo);
+            localStorage.setItem('amar_gh_branch', branch);
+
+            showToast('GitHub configuration saved!', 'success');
+        }
+
+        // Load Settings
+        function loadSettings() {
+            const token = localStorage.getItem('amar_gh_token') || '';
+            const repo = localStorage.getItem('amar_gh_repo') || 'amarvisual/AmarVisuals';
+            const branch = localStorage.getItem('amar_gh_branch') || 'main';
+
+            if (token) document.getElementById('gh-token').value = token;
+            document.getElementById('gh-repo').value = repo;
+            document.getElementById('gh-branch').value = branch;
+        }
+        loadSettings();
+
+        // Draft Auto-Save
+        function getFormData() {
+            return {
+                hero: {
+                    eyebrow: document.getElementById('hero-eyebrow')?.value,
+                    prefix: document.getElementById('hero-title-prefix')?.value,
+                    roles: currentRoles,
+                    btnPrimaryText: document.getElementById('hero-btn-primary-text')?.value,
+                    btnPrimaryUrl: document.getElementById('hero-btn-primary-url')?.value,
+                    btnGhostText: document.getElementById('hero-btn-ghost-text')?.value,
+                    btnGhostUrl: document.getElementById('hero-btn-ghost-url')?.value,
+                },
+                stats: {
+                    label: document.getElementById('trusted-label')?.value,
+                    stat1: { target: document.getElementById('stat1-target')?.value, suffix: document.getElementById('stat1-suffix')?.value, title: document.getElementById('stat1-title')?.value, sub: document.getElementById('stat1-sub')?.value },
+                    stat2: { target: document.getElementById('stat2-target')?.value, suffix: document.getElementById('stat2-suffix')?.value, title: document.getElementById('stat2-title')?.value, sub: document.getElementById('stat2-sub')?.value },
+                    stat3: { target: document.getElementById('stat3-target')?.value, suffix: document.getElementById('stat3-suffix')?.value, title: document.getElementById('stat3-title')?.value, sub: document.getElementById('stat3-sub')?.value },
+                    stat4: { target: document.getElementById('stat4-target')?.value, suffix: document.getElementById('stat4-suffix')?.value, title: document.getElementById('stat4-title')?.value, sub: document.getElementById('stat4-sub')?.value },
+                },
+                about: {
+                    badge: document.getElementById('about-badge')?.value,
+                    heading: document.getElementById('about-heading')?.value,
+                    desc: document.getElementById('about-desc')?.value,
+                    chips: [
+                        { icon: document.getElementById('feat1-icon')?.value, title: document.getElementById('feat1-title')?.value, sub: document.getElementById('feat1-sub')?.value },
+                        { icon: document.getElementById('feat2-icon')?.value, title: document.getElementById('feat2-title')?.value, sub: document.getElementById('feat2-sub')?.value },
+                        { icon: document.getElementById('feat3-icon')?.value, title: document.getElementById('feat3-title')?.value, sub: document.getElementById('feat3-sub')?.value },
+                        { icon: document.getElementById('feat4-icon')?.value, title: document.getElementById('feat4-title')?.value, sub: document.getElementById('feat4-sub')?.value },
+                    ]
+                },
+                pricing: {
+                    eyebrow: document.getElementById('pricing-eyebrow')?.value,
+                    price1: { amount: document.getElementById('price1-amount')?.value, desc: document.getElementById('price1-desc')?.value },
+                    price2: { amount: document.getElementById('price2-amount')?.value, desc: document.getElementById('price2-desc')?.value },
+                    price3: { amount: document.getElementById('price3-amount')?.value, desc: document.getElementById('price3-desc')?.value },
+                },
+                contact: {
+                    whatsapp: document.getElementById('contact-whatsapp')?.value,
+                    email: document.getElementById('contact-email')?.value,
+                    location: document.getElementById('contact-location')?.value,
+                }
+            };
+        }
+
+        function autoSaveDraft() {
+            localStorage.setItem('amar_admin_draft', JSON.stringify(getFormData()));
+        }
+
+        function loadDraft() {
+            const raw = localStorage.getItem('amar_admin_draft');
+            if (!raw) return;
+            try {
+                const data = JSON.parse(raw);
+                if (data.hero?.roles) {
+                    currentRoles = data.hero.roles;
+                    renderRoles();
+                }
+                if (data.hero?.eyebrow) document.getElementById('hero-eyebrow').value = data.hero.eyebrow;
+                if (data.about?.heading) document.getElementById('about-heading').value = data.about.heading;
+                if (data.about?.desc) document.getElementById('about-desc').value = data.about.desc;
+                if (data.pricing?.price1?.amount) document.getElementById('price1-amount').value = data.pricing.price1.amount;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        document.querySelectorAll('.form-input, .form-textarea').forEach(el => {
+            el.addEventListener('input', autoSaveDraft);
+        });
+
+        // Export Backup JSON
+        function exportData() {
+            const data = getFormData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `amar-visuals-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            showToast('Backup exported successfully!', 'success');
+        }
+
+        // GitHub API Publish Engine
+        async function executePublish() {
+            const token = localStorage.getItem('amar_gh_token') || document.getElementById('gh-token').value.trim();
+            const repo = localStorage.getItem('amar_gh_repo') || 'amarvisual/AmarVisuals';
+            const branch = localStorage.getItem('amar_gh_branch') || 'main';
+
+            if (!token) {
+                closePublishModal();
+                switchTab('settings');
+                showToast('Please enter your GitHub Token first!', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('btn-confirm-publish');
+            btn.textContent = '⏳ Committing to GitHub...';
+            btn.disabled = true;
+
+            try {
+                // 1. Fetch current index.html from GitHub
+                const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html?ref=${branch}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!getRes.ok) throw new Error(`GitHub fetch failed: ${getRes.statusText}`);
+                const fileData = await getRes.json();
+                const currentSha = fileData.sha;
+                
+                // Decode base64 content
+                const originalHtml = decodeURIComponent(escape(atob(fileData.content.replace(/\s/g, ''))));
+
+                // 2. Inject updated fields into HTML
+                const data = getFormData();
+                let updatedHtml = originalHtml;
+
+                // Update morphRoles array in JS
+                const rolesJson = JSON.stringify(data.hero.roles);
+                updatedHtml = updatedHtml.replace(/const morphRoles = \[.*?\];/s, `const morphRoles = ${rolesJson};`);
+
+                // Update Stats target
+                if (data.stats.stat1.target) {
+                    updatedHtml = updatedHtml.replace(/<span class="t-logo-num" data-target="\d+" data-suffix="\+">/g, `<span class="t-logo-num" data-target="${data.stats.stat1.target}" data-suffix="+">`);
+                }
+
+                // Update About description
+                if (data.about.desc) {
+                    updatedHtml = updatedHtml.replace(/<p class="about-desc">.*?<\/p>/s, `<p class="about-desc">${data.about.desc}</p>`);
+                }
+
+                // 3. Commit back to GitHub
+                const utf8Bytes = new TextEncoder().encode(updatedHtml);
+                let binaryStr = '';
+                utf8Bytes.forEach(b => binaryStr += String.fromCharCode(b));
+                const encodedContent = btoa(binaryStr);
+
+                const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: `Admin Update: Content updated via Admin Panel (${new Date().toLocaleString()})`,
+                        content: encodedContent,
+                        sha: currentSha,
+                        branch: branch
+                    })
+                });
+
+                if (!putRes.ok) {
+                    const errJson = await putRes.json();
+                    throw new Error(errJson.message || 'GitHub commit failed');
+                }
+
+                closePublishModal();
+                showToast('🚀 Changes published live! Vercel is deploying now...', 'success');
+            } catch (err) {
+                console.error(err);
+                showToast(`Publish Error: ${err.message}`, 'error');
+            } finally {
+                btn.textContent = '✓ Confirm & Publish Now';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

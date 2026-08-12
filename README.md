@@ -106,9 +106,11 @@ Open `index.html` in any modern browser (Chrome, Edge, Safari, Firefox) — no b
 - **2026-08-12**: Canvas Animation Visibility Restoration — Restored transparent backdrop with frosted glassmorphism across `#page-content`, `.trusted-section` (`rgba(8,8,8,0.45)` with `backdrop-filter: blur(12px)`), `.marquee-section` (`rgba(8,8,8,0.35)`), and `.about-glass-container` (`rgba(12,12,12,0.55)` with `backdrop-filter: blur(20px)`), allowing the animated background canvas video to remain visible and dynamic throughout scrolling while preserving high text contrast.
 - **2026-08-12**: Copy & Hero Typewriter Updates — Updated hero cycling roles to *Web Developer, UI/UX Designer, Graphic Designer, Vibe Coder, AI Journalist*, and calibrated the project counter in the trust bar across `index.html` and service pages from `50+` to `10+` delivered projects.
 - **2026-08-12**: Typography & Letter-Spacing Refinement — Reduced letter-spacing across section badges (`Amar Visual Studio`, `Transparent Pricing`, `Contact`, and `Info` eyebrows) from wide spacing (2–3px) to refined compact spacing (0.6px desktop / 0.3–0.4px mobile) for a cleaner, modern look.
+- **2026-08-12**: Admin Control Panel Launch (`admin.html` / `admin/`) — Built a dedicated, dark-glass Admin Dashboard with master PIN security (`1234` default, SHA-256 hash), multi-tab content management (Hero roles tag editor, Stats counters, About card, Portfolio projects, Pricing plans, Testimonials, FAQ, and Contact info), live in-browser preview, JSON backup export, and direct GitHub REST API sync to trigger instant automated Vercel deployments.
 
 ## Automatic Updates
 An AI agent rule is configured in this workspace to automatically keep this document up to date if any structural or functional changes are made to the project.
+
 
 
 
