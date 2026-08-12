@@ -98,7 +98,9 @@ Open `index.html` in any modern browser (Chrome, Edge, Safari, Firefox) — no b
 - **2026-08-10**: Target domain configured to `https://amarvisuals.co.uk/` across all canonical tags, Open Graph meta tags, Twitter card URLs, JSON-LD Schema (LocalBusiness, Services, BreadcrumbList), `sitemap.xml`, and `robots.txt`.
 - **2026-08-11**: Initialized local Git repository, linked remote to [amarvisual/AmarVisuals](https://github.com/amarvisual/AmarVisuals), and pushed all latest source code, assets, service pages, and animation frames to branch `main` for automated Vercel/CI/CD deployment. Also generated standalone [amarvisuals-deploy.zip](file:///d:/Amar%20Visual%20Studio/Antigravity%20Project/amarvisuals-deploy.zip) package.
 - **2026-08-12**: Mobile UX & Service Page Conversion Optimization — (1) Added full-screen mobile drawer menu to `index.html` with direct section jumps and dedicated service page links, (2) Added floating WhatsApp FAB with pulse ring and pre-filled inquiry prompts across all 4 service pages (`web-design-bhubaneswar.html`, `web-design-odisha.html`, `landing-page-design.html`, `business-website-design.html`), (3) Enforced 16px minimum font size on form controls to prevent iOS mobile browser auto-zooming on focus, (4) Upgraded mobile breakpoint responsiveness (768px/480px) across all service pages including 2-column trust counters and full-width CTA buttons.
+- **2026-08-12**: Hotfix & AST Script Validation — Resolved JavaScript syntax errors on `index.html` (closed missing block bracket on custom cursor and deduplicated `mobileMenu` declarations) that were blocking script execution and preloader removal on live environments; ran automated AST validator across all HTML and JS files in the project.
 
 ## Automatic Updates
 An AI agent rule is configured in this workspace to automatically keep this document up to date if any structural or functional changes are made to the project.
+
 

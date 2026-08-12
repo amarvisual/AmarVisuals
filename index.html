@@ -1988,22 +1988,6 @@
         /* ── Auto copyright year ── */
         document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-        /* ── Mobile Hamburger Menu ── */
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('open');
-            mobileMenu.classList.toggle('open');
-            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-        });
-
-        function closeMobileMenu() {
-            hamburger.classList.remove('open');
-            mobileMenu.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
         /* ── Contact Form WhatsApp Submission ── */
         function submitToWhatsApp(e) {
             e.preventDefault();
@@ -2422,6 +2406,8 @@
             attachCursorEvents();
             const mutObserver = new MutationObserver(attachCursorEvents);
             mutObserver.observe(document.body, { childList: true, subtree: true });
+        }
+
         /* ── Mobile Hamburger Drawer Menu ── */
         const hamburgerBtn = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
