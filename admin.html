@@ -223,7 +223,7 @@
             background: rgba(255, 255, 255, 0.06);
             box-shadow: 0 0 15px var(--primary-glow);
         }
-        .form-textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
+        .form-textarea { min-height: 85px; resize: vertical; line-height: 1.5; }
         .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
@@ -250,12 +250,32 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
-            padding: 20px; margin-bottom: 16px;
+            padding: 22px; margin-bottom: 20px;
             position: relative;
         }
         .repeater-card-header {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 14px; font-size: 13px; font-weight: 700; color: var(--primary);
+            margin-bottom: 16px; font-size: 14px; font-weight: 700; color: var(--primary);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08); padding-bottom: 8px;
+        }
+
+        /* Image Upload Box */
+        .img-upload-box {
+            display: flex; gap: 14px; align-items: center; margin-top: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+        }
+        .img-preview {
+            width: 80px; height: 50px; border-radius: 8px; border: 1px solid var(--border-light);
+            overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .img-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .img-controls { display: flex; flex-direction: column; gap: 6px; flex-grow: 1; }
+        .file-picker-input {
+            font-size: 12px; color: var(--text-sub);
         }
 
         /* Floating Toast */
@@ -356,7 +376,7 @@
                     <span class="tab-icon">ℹ️</span> About Us Card
                 </button>
                 <button class="tab-btn" onclick="switchTab('portfolio')">
-                    <span class="tab-icon">💼</span> Selected Projects
+                    <span class="tab-icon">💼</span> Selected Projects (6)
                 </button>
                 <button class="tab-btn" onclick="switchTab('pricing')">
                     <span class="tab-icon">💰</span> Pricing Packages
@@ -587,16 +607,17 @@
                     </div>
                 </div>
 
-                <!-- 4. PORTFOLIO TAB -->
+                <!-- 4. PORTFOLIO TAB (6 Projects with Image Upload & Preview) -->
                 <div id="tab-portfolio" class="tab-pane">
                     <div class="content-card">
                         <div class="card-header">
                             <div>
-                                <h2 class="card-title">💼 Selected Projects</h2>
-                                <p class="card-desc">Manage portfolio showcases, screenshots, project links, and tags.</p>
+                                <h2 class="card-title">💼 Selected Projects (6 Showcase Items)</h2>
+                                <p class="card-desc">Edit your portfolio project cards, upload screenshots, or change live links.</p>
                             </div>
                         </div>
 
+                        <!-- Project 1 -->
                         <div class="repeater-card">
                             <div class="repeater-card-header">Project 1</div>
                             <div class="form-grid-2">
@@ -617,8 +638,20 @@
                                 <label class="form-label">Description</label>
                                 <textarea id="p1-desc" class="form-textarea">A free, interactive web-based typing tutor for the Akruti Odia phonetic keyboard. Features 36 progressive lessons and real-time WPM tracking.</textarea>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">Screenshot / Image <span>(Upload or enter image URL)</span></label>
+                                <input type="text" id="p1-img" class="form-input" value="odiatyping.png">
+                                <div class="img-upload-box">
+                                    <div class="img-preview"><img src="odiatyping.png" id="p1-preview-tag" alt="Preview"></div>
+                                    <div class="img-controls">
+                                        <input type="file" accept="image/*" class="file-picker-input" onchange="handleImgUpload(event, 1)">
+                                        <small style="color:var(--text-dim);">Pick a local image to preview & set</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
+                        <!-- Project 2 -->
                         <div class="repeater-card">
                             <div class="repeater-card-header">Project 2</div>
                             <div class="form-grid-2">
@@ -639,7 +672,155 @@
                                 <label class="form-label">Description</label>
                                 <textarea id="p2-desc" class="form-textarea">A professional clinical landing page for a premier rehabilitation center specializing in audiology and speech-language pathology.</textarea>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">Screenshot / Image</label>
+                                <input type="text" id="p2-img" class="form-input" value="princy.png">
+                                <div class="img-upload-box">
+                                    <div class="img-preview"><img src="princy.png" id="p2-preview-tag" alt="Preview"></div>
+                                    <div class="img-controls">
+                                        <input type="file" accept="image/*" class="file-picker-input" onchange="handleImgUpload(event, 2)">
+                                        <small style="color:var(--text-dim);">Pick a local image to preview & set</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Project 3 -->
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Project 3</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" id="p3-title" class="form-input" value="Amar Visual Studio">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Project Tag</label>
+                                    <input type="text" id="p3-tag" class="form-input" value="Portfolio">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project URL</label>
+                                <input type="text" id="p3-url" class="form-input" value="https://amarvisuals.co.uk/">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="p3-desc" class="form-textarea">A high-end web design agency portfolio with scroll-driven canvas animation, glassmorphic pricing cards, and animated preloader.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Screenshot / Image</label>
+                                <input type="text" id="p3-img" class="form-input" value="amarvisualstudio.png">
+                                <div class="img-upload-box">
+                                    <div class="img-preview"><img src="amarvisualstudio.png" id="p3-preview-tag" alt="Preview"></div>
+                                    <div class="img-controls">
+                                        <input type="file" accept="image/*" class="file-picker-input" onchange="handleImgUpload(event, 3)">
+                                        <small style="color:var(--text-dim);">Pick a local image to preview & set</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 4 -->
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Project 4</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" id="p4-title" class="form-input" value="Utkal Dental & Implant Clinic">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Project Tag</label>
+                                    <input type="text" id="p4-tag" class="form-input" value="Healthcare">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project URL</label>
+                                <input type="text" id="p4-url" class="form-input" value="https://wa.me/916372885071">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="p4-desc" class="form-textarea">Modern dental healthcare web platform with instant WhatsApp appointment booking, service rate cards, and patient reviews.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Screenshot / Image</label>
+                                <input type="text" id="p4-img" class="form-input" value="utkaldental.png">
+                                <div class="img-upload-box">
+                                    <div class="img-preview"><img src="utkaldental.png" id="p4-preview-tag" alt="Preview"></div>
+                                    <div class="img-controls">
+                                        <input type="file" accept="image/*" class="file-picker-input" onchange="handleImgUpload(event, 4)">
+                                        <small style="color:var(--text-dim);">Pick a local image to preview & set</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 5 -->
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Project 5</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" id="p5-title" class="form-input" value="Kalinga Fresh Organic Store">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Project Tag</label>
+                                    <input type="text" id="p5-tag" class="form-input" value="E-Commerce">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project URL</label>
+                                <input type="text" id="p5-url" class="form-input" value="https://wa.me/916372885071">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="p5-desc" class="form-textarea">High-conversion organic farm produce e-commerce store with categorized catalogue showcase and direct WhatsApp ordering flow.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Screenshot / Image</label>
+                                <input type="text" id="p5-img" class="form-input" value="kalingafresh.png">
+                                <div class="img-upload-box">
+                                    <div class="img-preview"><img src="kalingafresh.png" id="p5-preview-tag" alt="Preview"></div>
+                                    <div class="img-controls">
+                                        <input type="file" accept="image/*" class="file-picker-input" onchange="handleImgUpload(event, 5)">
+                                        <small style="color:var(--text-dim);">Pick a local image to preview & set</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 6 -->
+                        <div class="repeater-card">
+                            <div class="repeater-card-header">Project 6</div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" id="p6-title" class="form-input" value="Bhubaneswar Tech Hub">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Project Tag</label>
+                                    <input type="text" id="p6-tag" class="form-input" value="SaaS / Startup">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project URL</label>
+                                <input type="text" id="p6-url" class="form-input" value="https://wa.me/916372885071">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="p6-desc" class="form-textarea">Premium workspace & startup incubation booking portal with interactive tour requests, membership plans, and event scheduler.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Screenshot / Image</label>
+                                <input type="text" id="p6-img" class="form-input" value="techhub.png">
+                                <div class="img-upload-box">
+                                    <div class="img-preview"><img src="techhub.png" id="p6-preview-tag" alt="Preview"></div>
+                                    <div class="img-controls">
+                                        <input type="file" accept="image/*" class="file-picker-input" onchange="handleImgUpload(event, 6)">
+                                        <small style="color:var(--text-dim);">Pick a local image to preview & set</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -856,7 +1037,7 @@
                 <h3 style="font-family: var(--font-display); font-size: 18px; color: #fff;">👁️ Live Website Preview</h3>
                 <button class="btn-action btn-secondary" onclick="closePreview()">✕ Close</button>
             </div>
-            <iframe id="preview-iframe" class="preview-frame" src="index.html"></iframe>
+            <iframe id="preview-frame-el" class="preview-frame" src="index.html"></iframe>
         </div>
     </div>
 
@@ -974,6 +1155,23 @@
             autoSaveDraft();
         }
 
+        // Image Upload Handler
+        function handleImgUpload(event, pNum) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(`p${pNum}-preview-tag`);
+                    const imgInput = document.getElementById(`p${pNum}-img`);
+                    if (preview) preview.src = e.target.result;
+                    if (imgInput) imgInput.value = file.name;
+                    autoSaveDraft();
+                    showToast(`Image selected for Project ${pNum}!`, 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         // Toast Messages
         function showToast(msg, type = 'info') {
             const toast = document.getElementById('toast');
@@ -1040,7 +1238,7 @@
         }
         loadSettings();
 
-        // Draft Auto-Save
+        // Draft Auto-Save (Captures all 6 projects)
         function getFormData() {
             return {
                 hero: {
@@ -1070,6 +1268,14 @@
                         { icon: document.getElementById('feat4-icon')?.value, title: document.getElementById('feat4-title')?.value, sub: document.getElementById('feat4-sub')?.value },
                     ]
                 },
+                portfolio: [
+                    { title: document.getElementById('p1-title')?.value, tag: document.getElementById('p1-tag')?.value, url: document.getElementById('p1-url')?.value, desc: document.getElementById('p1-desc')?.value, img: document.getElementById('p1-img')?.value },
+                    { title: document.getElementById('p2-title')?.value, tag: document.getElementById('p2-tag')?.value, url: document.getElementById('p2-url')?.value, desc: document.getElementById('p2-desc')?.value, img: document.getElementById('p2-img')?.value },
+                    { title: document.getElementById('p3-title')?.value, tag: document.getElementById('p3-tag')?.value, url: document.getElementById('p3-url')?.value, desc: document.getElementById('p3-desc')?.value, img: document.getElementById('p3-img')?.value },
+                    { title: document.getElementById('p4-title')?.value, tag: document.getElementById('p4-tag')?.value, url: document.getElementById('p4-url')?.value, desc: document.getElementById('p4-desc')?.value, img: document.getElementById('p4-img')?.value },
+                    { title: document.getElementById('p5-title')?.value, tag: document.getElementById('p5-tag')?.value, url: document.getElementById('p5-url')?.value, desc: document.getElementById('p5-desc')?.value, img: document.getElementById('p5-img')?.value },
+                    { title: document.getElementById('p6-title')?.value, tag: document.getElementById('p6-tag')?.value, url: document.getElementById('p6-url')?.value, desc: document.getElementById('p6-desc')?.value, img: document.getElementById('p6-img')?.value },
+                ],
                 pricing: {
                     eyebrow: document.getElementById('pricing-eyebrow')?.value,
                     price1: { amount: document.getElementById('price1-amount')?.value, desc: document.getElementById('price1-desc')?.value },
@@ -1101,6 +1307,22 @@
                 if (data.about?.heading) document.getElementById('about-heading').value = data.about.heading;
                 if (data.about?.desc) document.getElementById('about-desc').value = data.about.desc;
                 if (data.pricing?.price1?.amount) document.getElementById('price1-amount').value = data.pricing.price1.amount;
+
+                // Load projects
+                if (Array.isArray(data.portfolio)) {
+                    data.portfolio.forEach((proj, i) => {
+                        const num = i + 1;
+                        if (proj.title && document.getElementById(`p${num}-title`)) document.getElementById(`p${num}-title`).value = proj.title;
+                        if (proj.tag && document.getElementById(`p${num}-tag`)) document.getElementById(`p${num}-tag`).value = proj.tag;
+                        if (proj.url && document.getElementById(`p${num}-url`)) document.getElementById(`p${num}-url`).value = proj.url;
+                        if (proj.desc && document.getElementById(`p${num}-desc`)) document.getElementById(`p${num}-desc`).value = proj.desc;
+                        if (proj.img && document.getElementById(`p${num}-img`)) {
+                            document.getElementById(`p${num}-img`).value = proj.img;
+                            const prev = document.getElementById(`p${num}-preview-tag`);
+                            if (prev) prev.src = proj.img;
+                        }
+                    });
+                }
             } catch (e) {
                 console.error(e);
             }
