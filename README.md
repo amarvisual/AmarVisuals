@@ -104,9 +104,11 @@ Open `index.html` in any modern browser (Chrome, Edge, Safari, Firefox) — no b
 - **2026-08-12**: Seamless Scroll Curtain Fix — Enforced solid dark studio backdrop (`#080808` with `box-shadow: 0 -30px 60px rgba(0,0,0,0.95)` and top border highlight) across `#page-content`, `.trusted-section` (`#0c0c0c`), and `.marquee-section` (`#0a0a0a`). This ensures that content sections smoothly and cleanly roll over the hero canvas without any half-face or background animation bleeding through gaps between sections on mobile.
 - **2026-08-12**: Mobile Viewport Width Containment Hotfix — Reconfigured mobile CSS grid columns to `repeat(2, minmax(0, 1fr))` across stats and about feature chips, condensed turnaround label to `7d Turnaround (3–7 Days Avg)`, updated section label to `Amar Visual Studio`, and enforced strict `width: 100%; max-width: 100vw; overflow-x: hidden` eliminating sideways horizontal scroll and card clipping on mobile screens.
 - **2026-08-12**: Canvas Animation Visibility Restoration — Restored transparent backdrop with frosted glassmorphism across `#page-content`, `.trusted-section` (`rgba(8,8,8,0.45)` with `backdrop-filter: blur(12px)`), `.marquee-section` (`rgba(8,8,8,0.35)`), and `.about-glass-container` (`rgba(12,12,12,0.55)` with `backdrop-filter: blur(20px)`), allowing the animated background canvas video to remain visible and dynamic throughout scrolling while preserving high text contrast.
+- **2026-08-12**: Copy & Hero Typewriter Updates — Updated hero cycling roles to *Web Developer, UI/UX Designer, Graphic Designer, Vibe Coder, AI Journalist*, and calibrated the project counter in the trust bar across `index.html` and service pages from `50+` to `10+` delivered projects.
 
 ## Automatic Updates
 An AI agent rule is configured in this workspace to automatically keep this document up to date if any structural or functional changes are made to the project.
+
 
 
 
