@@ -819,17 +819,43 @@
             to { transform: translateX(-50%); }
         }
 
-        /* ── About ───────────────────────────────────────────── */
-        .about-section {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 60px; align-items: center;
-            padding: 100px 5% 80px;
-            background: transparent;
+        /* ── About Section ───────────────────────────────────── */
+        .about-section-wrapper {
+            max-width: 1200px;
+            margin: 0 auto 90px auto;
+            padding: 0 5%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .about-glass-container {
+            background: rgba(10, 10, 10, 0.52);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 24px;
+            padding: 48px 44px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .about-glass-container:hover {
+            border-color: rgba(255, 69, 0, 0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 52px;
+            align-items: center;
+            width: 100%;
+        }
+        .about-left {
+            width: 100%;
         }
         .section-label {
             display: inline-flex; align-items: center; gap: 10px;
             font-size: 11px; font-weight: 700;
-            color: #ff4500; margin-bottom: 20px;
+            color: #ff4500; margin-bottom: 18px;
             text-transform: uppercase; letter-spacing: 2px;
         }
         .section-label::before {
@@ -837,20 +863,72 @@
         }
         .about-heading {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(36px, 5.5vw, 64px);
-            font-weight: 800; line-height: 1.05; letter-spacing: -1.5px;
-            color: #fff; margin-bottom: 30px;
-            text-shadow: 0 2px 30px rgba(0,0,0,0.8);
+            font-size: clamp(32px, 4.5vw, 54px);
+            font-weight: 800; line-height: 1.1; letter-spacing: -1px;
+            color: #fff; margin-bottom: 20px;
+            word-break: break-word;
         }
-        .about-right { }
+        .about-heading .gradient-text {
+            background: linear-gradient(135deg, #ff4500 0%, #ff7a00 50%, #ffaa00 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .about-desc {
-            font-size: 17px; font-weight: 500;
-            line-height: 1.65; color: rgba(255,255,255,0.9); margin-bottom: 20px;
-            text-shadow: 0 1px 12px rgba(0,0,0,0.85);
+            font-size: 16px; font-weight: 400;
+            line-height: 1.65; color: rgba(255,255,255,0.85);
+            margin-bottom: 0;
         }
-        .about-sub {
-            font-size: 13px; color: rgba(255,255,255,0.55);
-            line-height: 1.7; margin-bottom: 32px;
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+        }
+        .about-features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            width: 100%;
+        }
+        .about-feature-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 16px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.25s, transform 0.25s;
+        }
+        .about-feature-item:hover {
+            border-color: rgba(255,69,0,0.3);
+            transform: translateY(-2px);
+        }
+        .about-feat-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .about-feature-item strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .about-feature-item span {
+            display: block;
+            font-size: 11px;
+            color: rgba(255,255,255,0.45);
+            margin-top: 2px;
+        }
+        .about-actions {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .about-btn {
+            width: 100%;
+            justify-content: center;
         }
         .btn-primary {
             display: inline-flex; align-items: center; gap: 10px;
@@ -1360,7 +1438,8 @@
         @media (max-width: 1024px) {
             .pricing-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
             .pricing-grid .price-card:last-child { grid-column: span 2; max-width: 50%; margin: 0 auto; }
-            .about-section { gap: 40px; }
+            .about-grid { grid-template-columns: 1fr; gap: 36px; }
+            .about-glass-container { padding: 38px 30px; }
             .contact-split { grid-template-columns: 1fr; gap: 40px; }
             .portfolio-grid { grid-template-columns: 1fr 1fr; }
             .testimonials-grid { grid-template-columns: 1fr 1fr; }
@@ -1391,9 +1470,17 @@
             .t-logo-text strong { font-size: 12px; }
             .t-logo-text span { font-size: 10px; }
 
-            .about-section { grid-template-columns: 1fr; gap: 24px; padding: 48px 5% 40px; width: 100%; box-sizing: border-box; }
-            .about-heading { font-size: clamp(26px, 8vw, 38px); word-break: break-word; }
-            .about-desc { font-size: 15px; }
+            .about-section-wrapper { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
+            .about-glass-container { padding: 28px 18px; border-radius: 18px; width: 100%; box-sizing: border-box; }
+            .about-grid { grid-template-columns: 1fr; gap: 24px; width: 100%; }
+            .about-heading { font-size: clamp(24px, 7.5vw, 36px); letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 14px; }
+            .about-desc { font-size: 14px; line-height: 1.6; }
+            .about-features-grid { grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+            .about-feature-item { padding: 12px 10px; gap: 8px; border-radius: 12px; }
+            .about-feat-icon { font-size: 17px; }
+            .about-feature-item strong { font-size: 12px; }
+            .about-feature-item span { font-size: 10px; }
+            .about-btn { width: 100%; justify-content: center; min-height: 48px; font-size: 13px; }
 
             .pricing-section { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
             .pricing-grid { grid-template-columns: 1fr; gap: 18px; width: 100%; }
@@ -1452,7 +1539,15 @@
                 width: 100%; justify-content: center; text-align: center; font-size: 13px; padding: 13px 18px; box-sizing: border-box;
             }
 
-            .about-heading { font-size: clamp(24px, 8.5vw, 32px); }
+            .about-glass-container { padding: 22px 15px; border-radius: 16px; }
+            .about-heading { font-size: clamp(22px, 8vw, 28px); }
+            .about-desc { font-size: 13px; }
+            .about-features-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .about-feature-item { padding: 10px 8px; gap: 6px; }
+            .about-feat-icon { font-size: 15px; }
+            .about-feature-item strong { font-size: 11px; }
+            .about-feature-item span { font-size: 9px; }
+
             .pricing-title { font-size: clamp(24px, 8.5vw, 34px); }
             .contact-title { font-size: clamp(22px, 8.5vw, 32px); }
             .price-card { padding: 22px 16px 18px; }
@@ -1641,22 +1736,57 @@
         </div>
 
         <!-- About -->
-        <div class="about-section" id="about">
-            <div class="reveal-up">
-                <div class="section-label">About Amar Visual Studio</div>
-                <h2 class="about-heading">We Turn Your Vision Into a High-Converting Website</h2>
-            </div>
-            <div class="about-right reveal-up delay-100">
-                <p class="about-desc">We create modern, fast and conversion-focused websites that help small businesses, startups, and personal brands stand out — and grow online.</p>
-                <p class="about-sub">📍 Odisha, India &nbsp;·&nbsp; Free consultation &nbsp;·&nbsp; Response within 24 hours &nbsp;·&nbsp; 50% upfront, 50% on delivery</p>
-                <a href="https://wa.me/916372885071" target="_blank" class="btn-primary">
-                    WhatsApp Us Now
-                    <span class="btn-dot" style="color: #ff4500;">
-                        <svg class="arrow-svg" viewBox="0 0 12 12" fill="none" width="12" height="12">
-                            <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </a>
+        <div class="about-section-wrapper" id="about">
+            <div class="about-glass-container reveal-up">
+                <div class="about-grid">
+                    <div class="about-left">
+                        <div class="section-label">About Amar Visual Studio</div>
+                        <h2 class="about-heading">We Turn Your Vision Into a <span class="gradient-text">High-Converting</span> Website</h2>
+                        <p class="about-desc">We create modern, fast and conversion-focused websites designed to help small businesses, startups, and personal brands stand out, gain customer trust, and grow online.</p>
+                    </div>
+                    <div class="about-right">
+                        <div class="about-features-grid">
+                            <div class="about-feature-item">
+                                <span class="about-feat-icon">📍</span>
+                                <div>
+                                    <strong>Odisha, India</strong>
+                                    <span>Local & Global</span>
+                                </div>
+                            </div>
+                            <div class="about-feature-item">
+                                <span class="about-feat-icon">💬</span>
+                                <div>
+                                    <strong>Free Consult</strong>
+                                    <span>Strategy & Quote</span>
+                                </div>
+                            </div>
+                            <div class="about-feature-item">
+                                <span class="about-feat-icon">⚡</span>
+                                <div>
+                                    <strong>Fast Turnaround</strong>
+                                    <span>3–7 Days Delivery</span>
+                                </div>
+                            </div>
+                            <div class="about-feature-item">
+                                <span class="about-feat-icon">🔒</span>
+                                <div>
+                                    <strong>Fair Pricing</strong>
+                                    <span>50% After Delivery</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-actions">
+                            <a href="https://wa.me/916372885071?text=Hi%20Amar%20Visual%20Studio%2C%20I%27d%20like%20to%20discuss%20a%20website%20project" target="_blank" class="btn-primary about-btn">
+                                <span>WhatsApp Us Now</span>
+                                <span class="btn-dot">
+                                    <svg class="arrow-svg" viewBox="0 0 12 12" fill="none" width="12" height="12">
+                                        <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
