@@ -327,14 +327,14 @@
     <div id="login-screen">
         <div class="login-card">
             <div class="login-brand">Amar Visual <span>Studio</span></div>
-            <p class="login-sub">Admin Control Panel • Enter Master PIN</p>
+            <p class="login-sub">Admin Control Panel • Enter Master Password</p>
             <div class="form-group">
-                <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="8" autofocus>
+                <input type="password" id="pin-input" class="pin-input" placeholder="••••••••" maxlength="32" autofocus>
             </div>
             <button class="btn-login" id="btn-unlock" onclick="handleLogin()">
                 <span>🔓 Unlock Dashboard</span>
             </button>
-            <p class="login-tip">Default PIN: <strong>1234</strong> (Change anytime in Settings)</p>
+            <p class="login-tip">Enter Master Password (Change anytime in Settings)</p>
         </div>
     </div>
 
@@ -987,10 +987,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Change Master PIN</label>
+                            <label class="form-label">Change Master Password</label>
                             <div class="tag-input-row">
-                                <input type="password" id="new-pin-input" class="form-input" placeholder="New PIN (e.g. 5678)" maxlength="8">
-                                <button class="btn-action btn-secondary" onclick="updatePin()">Save PIN</button>
+                                <input type="password" id="new-pin-input" class="form-input" placeholder="New Password (e.g. Amar@2027)" maxlength="32">
+                                <button class="btn-action btn-secondary" onclick="updatePin()">Save Password</button>
                             </div>
                         </div>
 
@@ -1069,8 +1069,8 @@
         const DEFAULT_ROLES = ['Web Developer.', 'UI/UX Designer.', 'Graphic Designer.', 'Vibe Coder.', 'AI Journalist.'];
         let currentRoles = [...DEFAULT_ROLES];
 
-        // PIN Security
-        const DEFAULT_PIN_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; // SHA-256 for '1234'
+        // Password Security
+        const DEFAULT_PASSWORD_HASH = '3837c2b4bfb1a7006370d3fe82811eee9dede2629afcdabd11278532bd38966a'; // SHA-256 for 'Amar@2027'
         
         async function sha256(str) {
             const buffer = new TextEncoder().encode(str);
@@ -1080,10 +1080,10 @@
 
         async function handleLogin() {
             const input = document.getElementById('pin-input').value.trim();
-            const storedHash = localStorage.getItem('amar_admin_pin_hash') || DEFAULT_PIN_HASH;
+            const storedHash = localStorage.getItem('amar_admin_pin_hash') || DEFAULT_PASSWORD_HASH;
             const inputHash = await sha256(input);
 
-            if (inputHash === storedHash || input === '1234') {
+            if (inputHash === storedHash || input === 'Amar@2027') {
                 sessionStorage.setItem('amar_admin_auth', 'true');
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('admin-app').style.display = 'flex';
@@ -1091,7 +1091,7 @@
                 renderRoles();
                 loadDraft();
             } else {
-                showToast('Invalid PIN! Please try again.', 'error');
+                showToast('Invalid Password! Please try again.', 'error');
                 document.getElementById('pin-input').value = '';
                 document.getElementById('pin-input').focus();
             }
@@ -1200,16 +1200,16 @@
             document.getElementById('publish-modal').classList.remove('open');
         }
 
-        // PIN Change
+        // Password Change
         async function updatePin() {
             const newPin = document.getElementById('new-pin-input').value.trim();
             if (newPin.length >= 4) {
                 const hash = await sha256(newPin);
                 localStorage.setItem('amar_admin_pin_hash', hash);
                 document.getElementById('new-pin-input').value = '';
-                showToast('Master PIN updated successfully!', 'success');
+                showToast('Master Password updated successfully!', 'success');
             } else {
-                showToast('PIN must be at least 4 characters long', 'error');
+                showToast('Password must be at least 4 characters long', 'error');
             }
         }
 
