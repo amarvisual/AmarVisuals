@@ -102,9 +102,11 @@ Open `index.html` in any modern browser (Chrome, Edge, Safari, Firefox) — no b
 - **2026-08-12**: Mobile Layout Containment & Hero Branding Restoration — (1) Restored hero headline branding to "Hey, I'm a Web Developer" with dynamic typewriter role transitions, (2) Calibrated hero scroll fade-out (`heroFadeEnd: 260px`) to completely eliminate text collision with incoming content sections while preserving the full face background animation, (3) Enforced strict width containment across all grid systems (`pricing-grid`, `portfolio-grid`, `testimonials-grid`, `trusted-logos`, `contact-split`) eliminating all horizontal overflow triggers on small mobile screens.
 - **2026-08-12**: About Section Mobile UX Overhaul — Upgraded "About Amar Visual Studio" into a frosted glassmorphic card container (`backdrop-filter: blur(16px)`) with crisp high-contrast readability over the scroll video, structured 2x2 responsive value-prop feature chips (*Odisha Local/Global, Free Consult, Fast Turnaround, Fair Pricing*), and full-width mobile WhatsApp CTA button.
 - **2026-08-12**: Seamless Scroll Curtain Fix — Enforced solid dark studio backdrop (`#080808` with `box-shadow: 0 -30px 60px rgba(0,0,0,0.95)` and top border highlight) across `#page-content`, `.trusted-section` (`#0c0c0c`), and `.marquee-section` (`#0a0a0a`). This ensures that content sections smoothly and cleanly roll over the hero canvas without any half-face or background animation bleeding through gaps between sections on mobile.
+- **2026-08-12**: Mobile Viewport Width Containment Hotfix — Reconfigured mobile CSS grid columns to `repeat(2, minmax(0, 1fr))` across stats and about feature chips, condensed turnaround label to `7d Turnaround (3–7 Days Avg)`, updated section label to `Amar Visual Studio`, and enforced strict `width: 100%; max-width: 100vw; overflow-x: hidden` eliminating sideways horizontal scroll and card clipping on mobile screens.
 
 ## Automatic Updates
 An AI agent rule is configured in this workspace to automatically keep this document up to date if any structural or functional changes are made to the project.
+
 
 
 

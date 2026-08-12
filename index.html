@@ -246,19 +246,27 @@
 
     <style>
         /* ── Reset ────────────────────────────────────────── */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         /* ── Custom Scrollbar ── */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #ff4500; }
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
         body {
             font-family: 'Inter', sans-serif;
             color: #fff;
+            width: 100%;
+            max-width: 100vw;
             overflow-x: hidden;
             background: #0a0a0a;
+            position: relative;
             /* iOS momentum scrolling */
             -webkit-overflow-scrolling: touch;
         }
@@ -1462,53 +1470,57 @@
             .hero-btn-primary, .hero-btn-ghost { font-size: 13px; padding: 13px 20px; min-height: 46px; }
             .hero-scroll-indicator { display: none; }
 
-            .trusted-section { flex-direction: column; align-items: stretch; gap: 18px; padding: 28px 5%; width: 100%; box-sizing: border-box; }
-            .trusted-label { font-size: 11px; min-width: unset; }
-            .trusted-logos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 12px; width: 100%; }
-            .t-logo { gap: 10px; min-width: 0; overflow: hidden; }
-            .t-logo-num { font-size: 26px; }
-            .t-logo-text strong { font-size: 12px; }
-            .t-logo-text span { font-size: 10px; }
+            .trusted-section { flex-direction: column; align-items: stretch; gap: 16px; padding: 24px 4%; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .trusted-label { font-size: 10.5px; min-width: unset; text-align: left; }
+            .trusted-logos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; width: 100%; max-width: 100%; box-sizing: border-box; }
+            .t-logo { gap: 8px; min-width: 0; overflow: hidden; }
+            .t-logo-num { font-size: 22px; flex-shrink: 0; }
+            .t-logo-text { min-width: 0; overflow: hidden; }
+            .t-logo-text strong { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .t-logo-text span { font-size: 9.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-            .about-section-wrapper { padding: 0 5%; margin: 36px auto 44px auto; width: 100%; box-sizing: border-box; }
-            .about-glass-container { padding: 26px 18px; border-radius: 18px; width: 100%; box-sizing: border-box; }
-            .about-grid { grid-template-columns: 1fr; gap: 20px; width: 100%; }
-            .section-label { font-size: 10px; letter-spacing: 1.5px; margin-bottom: 14px; }
-            .about-heading { font-size: clamp(24px, 7.5vw, 36px); letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 14px; }
-            .about-desc { font-size: 14px; line-height: 1.6; }
-            .about-features-grid { grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
-            .about-feature-item { padding: 12px 10px; gap: 8px; border-radius: 12px; }
-            .about-feat-icon { font-size: 17px; }
-            .about-feature-item strong { font-size: 12px; }
-            .about-feature-item span { font-size: 10px; }
-            .about-btn { width: 100%; justify-content: center; min-height: 48px; font-size: 13px; }
+            .about-section-wrapper { padding: 0 4%; margin: 28px auto 36px auto; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .about-glass-container { padding: 22px 14px; border-radius: 16px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .about-grid { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 100%; }
+            .about-left, .about-right { width: 100%; max-width: 100%; min-width: 0; }
+            .section-label { font-size: 9.5px; letter-spacing: 1px; margin-bottom: 10px; white-space: normal; }
+            .about-heading { font-size: clamp(20px, 6.5vw, 28px); letter-spacing: -0.5px; line-height: 1.18; margin-bottom: 12px; word-break: break-word; }
+            .about-desc { font-size: 13.5px; line-height: 1.55; word-break: break-word; }
+            .about-features-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; max-width: 100%; box-sizing: border-box; }
+            .about-feature-item { min-width: 0; width: 100%; overflow: hidden; padding: 10px 8px; gap: 6px; border-radius: 10px; box-sizing: border-box; }
+            .about-feat-icon { font-size: 15px; flex-shrink: 0; }
+            .about-feature-item > div { min-width: 0; overflow: hidden; }
+            .about-feature-item strong { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+            .about-feature-item span { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .about-actions { width: 100%; }
+            .about-btn { width: 100%; justify-content: center; min-height: 48px; font-size: 13px; padding: 12px 18px; box-sizing: border-box; }
 
-            .pricing-section { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
-            .pricing-grid { grid-template-columns: 1fr; gap: 18px; width: 100%; }
+            .pricing-section { padding: 0 4%; margin-bottom: 40px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 16px; width: 100%; max-width: 100%; }
             .pricing-grid .price-card:last-child { grid-column: span 1; max-width: 100%; margin: 0; }
-            .pricing-title { font-size: clamp(28px, 8vw, 42px); word-break: break-word; }
-            .pricing-notice { border-radius: 12px; padding: 12px 16px; font-size: 12px; line-height: 1.5; text-align: center; width: 100%; box-sizing: border-box; }
-            .price-card { padding: 24px 18px 20px; width: 100%; box-sizing: border-box; }
-            .price-amount { font-size: 42px; }
+            .pricing-title { font-size: clamp(24px, 7.5vw, 36px); word-break: break-word; }
+            .pricing-notice { border-radius: 12px; padding: 12px 14px; font-size: 11.5px; line-height: 1.5; text-align: center; width: 100%; box-sizing: border-box; }
+            .price-card { padding: 22px 16px 18px; width: 100%; box-sizing: border-box; }
+            .price-amount { font-size: 38px; }
 
-            .portfolio-section { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
-            .portfolio-grid { grid-template-columns: 1fr; gap: 20px; width: 100%; }
+            .portfolio-section { padding: 0 4%; margin-bottom: 40px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .portfolio-grid { grid-template-columns: 1fr; gap: 16px; width: 100%; max-width: 100%; }
             .portfolio-card { width: 100%; box-sizing: border-box; }
 
-            .testimonials-section { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
-            .testimonials-grid { grid-template-columns: 1fr; gap: 18px; width: 100%; }
-            .testimonial-card { width: 100%; box-sizing: border-box; padding: 22px 18px; }
+            .testimonials-section { padding: 0 4%; margin-bottom: 40px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .testimonials-grid { grid-template-columns: 1fr; gap: 16px; width: 100%; max-width: 100%; }
+            .testimonial-card { width: 100%; box-sizing: border-box; padding: 20px 16px; }
 
-            .faq-section { padding: 0 5%; margin-bottom: 50px; width: 100%; box-sizing: border-box; }
-            .faq-summary { font-size: 15px; padding: 16px 18px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-            .faq-content { font-size: 13px; padding: 0 18px 16px; }
+            .faq-section { padding: 0 4%; margin-bottom: 40px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .faq-summary { font-size: 14px; padding: 14px 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+            .faq-content { font-size: 12.5px; padding: 0 16px 14px; }
 
-            .contact-section { padding: 50px 5% 70px; width: 100%; box-sizing: border-box; }
-            .contact-title { font-size: clamp(26px, 8vw, 38px); word-break: break-word; }
-            .contact-sub { font-size: 13px; }
-            .contact-split { grid-template-columns: 1fr; gap: 28px; max-width: 100%; width: 100%; box-sizing: border-box; }
-            .contact-header { margin-bottom: 30px; }
-            .contact-glass-box { padding: 22px 16px; width: 100%; box-sizing: border-box; }
+            .contact-section { padding: 40px 4% 60px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+            .contact-title { font-size: clamp(24px, 7.5vw, 34px); word-break: break-word; }
+            .contact-sub { font-size: 12.5px; }
+            .contact-split { grid-template-columns: 1fr; gap: 24px; max-width: 100%; width: 100%; box-sizing: border-box; }
+            .contact-header { margin-bottom: 24px; }
+            .contact-glass-box { padding: 20px 14px; width: 100%; box-sizing: border-box; }
             .form-row { grid-template-columns: 1fr; gap: 0; width: 100%; }
             .form-control, .float-input, select.form-control, textarea.form-control {
                 font-size: 16px !important; /* Prevents iOS auto-zoom on focus */
@@ -1516,12 +1528,12 @@
                 width: 100%;
                 box-sizing: border-box;
             }
-            .info-title { font-size: 24px; word-break: break-word; }
+            .info-title { font-size: 22px; word-break: break-word; }
             .info-card { width: 100%; max-width: 100%; box-sizing: border-box; }
 
             .footer-content { flex-direction: column; align-items: flex-start; gap: 20px; width: 100%; box-sizing: border-box; }
-            .footer-right { flex-wrap: wrap; gap: 12px 18px; width: 100%; }
-            .footer-link { font-size: 13px; padding: 4px 0; }
+            .footer-right { flex-wrap: wrap; gap: 10px 16px; width: 100%; }
+            .footer-link { font-size: 12.5px; padding: 4px 0; }
 
             .whatsapp-fab { bottom: 18px; right: 18px; }
             .whatsapp-fab-btn { width: 52px; height: 52px; }
@@ -1529,32 +1541,32 @@
 
         /* ── Responsive — 480px ── */
         @media (max-width: 480px) {
-            #navbar { padding: 12px 5%; }
+            #navbar { padding: 12px 4%; }
             .nav-brand-name { font-size: 16px; }
             .nav-logo { width: 34px; height: 34px; }
 
-            .hero-title { font-size: clamp(30px, 9vw, 44px); letter-spacing: -1px; }
-            #hero-overlay { padding: 0 5% 70px; }
+            .hero-title { font-size: clamp(28px, 8.5vw, 40px); letter-spacing: -1px; }
+            #hero-overlay { padding: 0 4% 65px; }
             .hero-ctas { flex-direction: column; align-items: stretch; gap: 8px; }
             .hero-btn-primary, .hero-btn-ghost {
                 width: 100%; justify-content: center; text-align: center; font-size: 13px; padding: 13px 18px; box-sizing: border-box;
             }
 
-            .about-section-wrapper { margin: 24px auto 36px auto; }
-            .about-glass-container { padding: 20px 14px; border-radius: 16px; }
-            .section-label { font-size: 9.5px; letter-spacing: 1px; }
-            .about-heading { font-size: clamp(21px, 7.5vw, 26px); }
-            .about-desc { font-size: 13px; }
-            .about-features-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .about-feature-item { padding: 10px 8px; gap: 6px; }
-            .about-feat-icon { font-size: 15px; }
-            .about-feature-item strong { font-size: 11px; }
-            .about-feature-item span { font-size: 9px; }
+            .about-section-wrapper { margin: 20px auto 30px auto; padding: 0 3.5%; }
+            .about-glass-container { padding: 18px 12px; border-radius: 14px; }
+            .section-label { font-size: 9px; letter-spacing: 0.8px; }
+            .about-heading { font-size: clamp(19px, 6.8vw, 24px); }
+            .about-desc { font-size: 12.5px; }
+            .about-features-grid { gap: 6px; }
+            .about-feature-item { padding: 8px 6px; gap: 5px; }
+            .about-feat-icon { font-size: 14px; }
+            .about-feature-item strong { font-size: 10.5px; }
+            .about-feature-item span { font-size: 8.5px; }
 
-            .pricing-title { font-size: clamp(24px, 8.5vw, 34px); }
-            .contact-title { font-size: clamp(22px, 8.5vw, 32px); }
-            .price-card { padding: 22px 16px 18px; }
-            .price-amount { font-size: 36px; }
+            .pricing-title { font-size: clamp(22px, 7.5vw, 30px); }
+            .contact-title { font-size: clamp(20px, 7.5vw, 28px); }
+            .price-card { padding: 18px 14px 16px; }
+            .price-amount { font-size: 34px; }
             .testimonial-card { padding: 20px 16px; }
             .quote { font-size: 13px; }
             .faq-summary { font-size: 14px; padding: 14px; }
@@ -1702,10 +1714,10 @@
                     </div>
                 </div>
                 <div class="t-logo">
-                    <span class="t-logo-num" data-target="7" data-suffix=" Days">0</span>
+                    <span class="t-logo-num" data-target="7" data-suffix="d">0</span>
                     <div class="t-logo-text">
-                        <strong>Max Delivery</strong>
-                        <span>Turnaround</span>
+                        <strong>Turnaround</strong>
+                        <span>3–7 Days Avg</span>
                     </div>
                 </div>
             </div>
@@ -1743,7 +1755,7 @@
             <div class="about-glass-container reveal-up">
                 <div class="about-grid">
                     <div class="about-left">
-                        <div class="section-label">About Amar Visual Studio</div>
+                        <div class="section-label">Amar Visual Studio</div>
                         <h2 class="about-heading">We Turn Your Vision Into a <span class="gradient-text">High-Converting</span> Website</h2>
                         <p class="about-desc">We create modern, fast and conversion-focused websites designed to help small businesses, startups, and personal brands stand out, gain customer trust, and grow online.</p>
                     </div>
